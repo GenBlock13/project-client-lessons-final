@@ -1,16 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
-import { MainPage } from './pages'
-import { NotFoundPage } from './pages'
-import { Page } from './components'
+import { MainPage, NotFoundPage } from './pages'
+import { Navbar, Page } from './components'
 
 function App() {
   return (
-    <Page>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Page>
+    <>
+      <Navbar />
+      <Page>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Page>
+    </>
   )
 }
 
