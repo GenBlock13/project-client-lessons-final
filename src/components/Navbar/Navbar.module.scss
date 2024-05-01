@@ -1,0 +1,25 @@
+.navbar {
+    width: 100%;
+    height: var(--navbar-height);
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.navbarInner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btns {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}

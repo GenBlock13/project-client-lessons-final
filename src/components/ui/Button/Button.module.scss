@@ -1,0 +1,48 @@
+.btn {
+    cursor: pointer;
+    color: var(--inverted-text-color);
+    padding: 6px 10px;
+    border-radius: 24px;
+
+    &:hover {
+        opacity: .8;
+    }
+}
+
+.clear {
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.outline {
+    border: 1px solid var(--inverted-text-color);
+    background: none;
+}
+
+.filled {
+    border: 1px solid var(--secondary-color);
+    background: var(--secondary-color);
+}
+
+.gradient {
+    border: none;
+    background: var(--primary-color-gradient);
+}
+
+.size_m {
+    font: var(--font-m)
+}
+
+.size_l {
+    font: var(--font-l)
+}
+
+.disabled {
+    opacity: 0.5;
+}
+
+.fullWidth {
+    width: 100%;
+}
