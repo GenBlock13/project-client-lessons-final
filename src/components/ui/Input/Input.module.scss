@@ -1,0 +1,45 @@
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    color: var(--inverted-text-color);
+    transition: border-color .1s linear;
+    border-bottom: 1px solid var(--secondary-color-light);
+    width: 100%;
+}
+
+.addonLeft {
+    display: flex;
+}
+
+.withAddonLeft {
+    padding-left: 8px;
+}
+
+.focused {
+    border-bottom-color: var(--inverted-text-color);
+    background: none;
+}
+
+.input {
+    padding-left: 16px;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--inverted-text-color);
+    background: none;
+
+    &::placeholder {
+        color: var(--inverted-text-color);
+        opacity: 0.5;
+    }
+}
+
+input:-webkit-autofill {
+    background-color: rgb(250, 255, 189);
+    background-image: none;
+}
+
+input:-webkit-autofill {
+    box-shadow: 0 0 0 500px #9a9394 inset;
+}
