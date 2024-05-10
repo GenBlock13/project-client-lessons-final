@@ -5,12 +5,14 @@ const mapSizeToClass = {
     s: cls.size_s,
     m: cls.size_m,
     l: cls.size_l,
+    xl: cls.size_xl,
 }
 
 const mapSizeToHeaderTag = {
-    s: 'h3',
-    m: 'h2',
-    l: 'h1',
+    s: 'h4',
+    m: 'h3',
+    l: 'h2',
+    xl: 'h1',
 }
 
 export const Text = (props) => {

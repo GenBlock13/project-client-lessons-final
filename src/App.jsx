@@ -4,6 +4,7 @@ import { Navbar, Page } from './components'
 import { useEffect } from 'react'
 import { useStore } from './store/StoreProvider'
 import { observer } from 'mobx-react-lite'
+import { Footer } from './components'
 
 function App() {
   const { authStore } = useStore()
@@ -27,6 +28,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Page>
+      <Footer />
     </>
   )
 }

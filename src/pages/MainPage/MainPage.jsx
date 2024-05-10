@@ -1,7 +1,13 @@
-import { Container } from '../../components'
+import { Intro, Places, Facts, Map, Comments } from '../../components'
 
 export const MainPage = () => {
-  return (
-    <Container></Container>
+  return ( 
+  <>
+    <Intro />
+    <Places />
+    <Facts />
+    <Comments />
+    <Map />
+  </>
   )
 }
