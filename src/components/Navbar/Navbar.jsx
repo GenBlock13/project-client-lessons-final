@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Container, Menu, Button, buttonType, AuthModal } from '../'
+import { Container, Menu, Button, buttonType, AuthModal, MenuLink } from '../'
 import cls from './Navbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../../store/StoreProvider'
+import { useScrollToHash } from '../../hooks/useScrollToHash'
 
 export const Navbar = observer(() => {  
+    const {pathname} = useScrollToHash()
+
     const [isAuthModal, setIsAuthModal] = useState(false)
     const [formType, setFormType] = useState('')
     const {authStore} = useStore()
@@ -37,7 +40,9 @@ export const Navbar = observer(() => {
         <header className={cls.navbar}>
             <Container>
                 <div className={cls.navbarInner}>
-                    <Menu />                  
+                    {
+                        pathname === '/' ? <Menu /> : <MenuLink to='/'>Токио</MenuLink>
+                    }                 
                     <div className={cls.btns}>
                         { authStore.isAuth
                         ? 

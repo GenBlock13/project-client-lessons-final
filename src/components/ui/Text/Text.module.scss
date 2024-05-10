@@ -69,9 +69,33 @@
     }
 }
 
+.size_xl {
+    .title {
+        font: var(--font-xxl);
+    }
+
+    .text {
+        font: var(--font-xl);
+    }
+}
+
 .bold {
     .title,
     .text {
         font-weight: 700;
+    }
+}
+
+@media (max-width: 520px) {
+    .size_l {
+        .title {
+                font: var(--font-l);
+            }
+        }
+    
+    .size_xl {
+        .title {
+            font-size: 76px;
+        }
     }
 }
