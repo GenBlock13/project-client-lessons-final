@@ -4,25 +4,18 @@ import axios from 'axios'
 import { API_URL } from '../api'
 
 export class AuthStore {
-    // Поле, в котором будут сохранятся данные о пользователе
-    // по умолчанию пустой объект {}
     user = {}
-    // Поле, которое показывает, авторизован пользователь или нет
-    // по умолчанию не авторизован {false}
     isAuth = false
-    // поле загрузки
     isLoading = false
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    // метод, меняющий флаг isAuth
     setAuth(bool) {
         this.isAuth = bool
     }
 
-    // метод, меняющий данные о пользователе
     setUser(user) {
         this.user = user
     }
@@ -31,33 +24,38 @@ export class AuthStore {
         this.isLoading = bool
     }
 
-    // метод для авторизации
+    setUserAndRole(response) {
+        localStorage.setItem('token', response.data.accessToken)
+        this.setAuth(true)
+        this.setUser(response.data.user)
+        const role = response.data.user.role
+        if (role === 'ADMIN') {
+            localStorage.setItem('roleAdmin', true)
+        } else if (role === 'USER') {
+            localStorage.setItem('roleUser', true)
+        }
+    }
+
     async login(email, password) {
         try {
             const response = await AuthService.login(email, password)
             console.log(response)
-            localStorage.setItem('token', response.data.accessToken)
-            this.setAuth(true)
-            this.setUser(response.data.user)
+            this.setUserAndRole(response)
         } catch (e) {
             console.log(e.response?.data?.message)
         }
     }
 
-    // метод для регистрации
     async registration(name, email, password) {
         try {
             const response = await AuthService.registration(name, email, password)
             console.log(response)
-            localStorage.setItem('token', response.data.accessToken)
-            this.setAuth(true)
-            this.setUser(response.data.user)
+            this.setUserAndRole(response)
         } catch (e) {
             console.log(e.message)
         }
     }
 
-    // метод для выхода из приложения
     async logout() {
         try {
             const response = await AuthService.logout()
@@ -65,12 +63,13 @@ export class AuthStore {
             localStorage.removeItem('token')
             this.setAuth(false)
             this.setUser({})
+            localStorage.removeItem('roleAdmin')
+            localStorage.removeItem('roleUser')
         } catch (e) {
             console.log((e).message)
         }
     }
 
-    // метод проверки авторизации
     async checkAuth() {
         this.setLoading(true)
         try {
@@ -80,8 +79,11 @@ export class AuthStore {
             this.setAuth(true)
             this.setUser(response.data.user)
         } catch (e) {
+            localStorage.removeItem('roleAdmin')
+            localStorage.removeItem('roleUser')
             console.log(e.response?.data?.message)
-        } finally {
+        } 
+        finally {
             this.setLoading(false)
         }
     }

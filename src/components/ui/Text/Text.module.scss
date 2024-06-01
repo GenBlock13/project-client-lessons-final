@@ -1,9 +1,13 @@
-.title {
+.black {
+   color: var(--text-color); 
+}
+
+.white {
     color: var(--inverted-text-color);
 }
 
-.text {
-    color: var(--text-color);
+.gray {
+    color: var(--secondary-color-light);
 }
 
 .error {

@@ -1,10 +1,9 @@
 import { Routes, Route } from 'react-router-dom'
-import { MainPage, NotFoundPage } from './pages'
-import { Navbar, Page } from './components'
+import { MainPage, NotFoundPage, AddPlacePage, PlacePage } from './pages'
+import { Navbar, Page, ProtectedRoute, Footer, Loader } from './components'
 import { useEffect } from 'react'
 import { useStore } from './store/StoreProvider'
 import { observer } from 'mobx-react-lite'
-import { Footer } from './components'
 
 function App() {
   const { authStore } = useStore()
@@ -16,8 +15,10 @@ function App() {
   }, [authStore])
 
   if (authStore.isLoading) {
-    return <div>Загрузка...</div>
+    return <Loader />
   }
+
+  const isAllowedAdmin = authStore.user.role === 'ADMIN' || localStorage.getItem('roleAdmin')
 
   return (
     <>
@@ -25,6 +26,10 @@ function App() {
       <Page>
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/places/:placeId" element={<PlacePage />} />
+          <Route element={<ProtectedRoute isAllowed={isAllowedAdmin} />}>
+            <Route path="/add-place" element={<AddPlacePage />} />
+          </Route>        
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Page>
