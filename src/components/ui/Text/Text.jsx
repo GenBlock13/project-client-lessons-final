@@ -23,13 +23,14 @@ export const Text = (props) => {
         variant = 'primary',
         align = 'left',
         size = 'm',
-        bold
+        bold,
+        color = 'black'
     } = props
 
     const HeaderTag = mapSizeToHeaderTag[size]
     const sizeClass = mapSizeToClass[size]
 
-    const additionalClasses = [className, cls[variant], cls[align], sizeClass]
+    const additionalClasses = [className, cls[variant], cls[align], cls[color], sizeClass]
 
     return (
         <div
