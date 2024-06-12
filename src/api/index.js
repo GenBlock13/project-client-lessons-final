@@ -2,6 +2,8 @@ import axios from 'axios'
 
 // базовый адрес маршрута на сервере
 export const API_URL = 'http://localhost:5000/api'
+// адрес порта сервера
+export const SERVER_URL = 'http://localhost:5000'
 
 // объект запроса на сервер 
 const $api = axios.create({

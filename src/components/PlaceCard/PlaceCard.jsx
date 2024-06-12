@@ -1,14 +1,13 @@
 import cls from './PlaceCard.module.scss'
 import { ReactComponent as DelSvg } from '../../assets/close.svg'
 import { ReactComponent as EditSvg } from '../../assets/edit.svg'
-import { Button, buttonType } from '../'
+import { Button, buttonType, AppImage } from '../'
 import { useStore } from '../../store/StoreProvider'
 import { useNavigate } from 'react-router-dom'
 
 export const PlaceCard = ({children, imgUrl, alt, placeId, update}) => {
   const { authStore, placeStore } = useStore()
   const navigate = useNavigate()
-  console.log(imgUrl)
 
   const onClickNavigate = () => {
     navigate(`/places/${placeId}`)
@@ -16,7 +15,7 @@ export const PlaceCard = ({children, imgUrl, alt, placeId, update}) => {
   
   const onClickEdit = (e) => {
     e.stopPropagation()
-    console.log('click edit')
+    navigate(`/places/${placeId}/edit`)
   }
 
   const onClickDelete = (e) => {
@@ -27,7 +26,7 @@ export const PlaceCard = ({children, imgUrl, alt, placeId, update}) => {
 
   return (
     <div onClick={onClickNavigate} className={cls.placeCard}>
-        <img className={cls.img} src={imgUrl} alt={alt} />
+        <AppImage className={cls.img} src={imgUrl} alt={alt} />
          {
             authStore.user.role === 'ADMIN' && 
             <div className={cls.edit}>

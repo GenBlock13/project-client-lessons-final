@@ -1,16 +1,24 @@
 import { createContext, useContext } from 'react'
 import { AuthStore } from './AuthStore'
 import { PlaceStore } from './PlaceStore'
+import { FactStore } from './FactStore'
+import { CommentStore } from './CommentStore'
 
 // Создание объекта класса AuthStore
 const authStore = new AuthStore()
 // Создание объекта класса PlaceStore
 const placeStore = new PlaceStore()
+// Создание объекта класса FactStore
+const factStore = new FactStore()
+// Создание объекта класса FactStore
+const commentStore = new CommentStore()
 
 // список сторов - сюда подключаем все сторы, которые у нас есть
 const stores = {
   authStore,
-  placeStore
+  placeStore,
+  factStore,
+  commentStore
 }
 
 // Создаем контекст для привязки сторов на верхнем уровне

@@ -19,8 +19,13 @@ export class PlaceService {
         })
     }
     // изменение достопримечательности по id
-    static async updatePlace(placeId) {
-        return $api.patch(`/places/${placeId}`)
+    static async updatePlace(placeId, title, text, gallery, thumbnail) {
+        return $api.patch(`/places/${placeId}`, {
+          title,
+          text,
+          gallery,
+          thumbnail,
+        })
     }
     // удаление достопримечательности по id
     static async deletePlace(placeId) {

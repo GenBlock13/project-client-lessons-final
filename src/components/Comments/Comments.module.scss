@@ -1,0 +1,42 @@
+.comments {
+    display: flex;
+    flex-direction: column;
+    padding: 64px 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    position: relative;
+    padding-left: 24px;
+
+    &::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+
+        background-color: var(--primary-color);
+
+        position: absolute;
+        top: 3px;
+        left: 0;
+    }
+}
+
+.modalComment {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.commentsList {
+    padding: 36px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}

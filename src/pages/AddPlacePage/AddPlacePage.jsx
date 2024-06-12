@@ -1,10 +1,20 @@
-import { useState, useCallback, useMemo } from 'react'
-import { Container, Input, Button, buttonType, Text, LinkButton, ImagePanel } from '../../components'
+import { useState, useCallback, useMemo, useEffect } from 'react'
+import { 
+  Container,
+  Input,
+  Button,
+  buttonType,
+  Text,
+  LinkButton,
+  ImagePanel,
+  ImageUploadedPanel 
+} from '../../components'
 import cls from './AddPlacePage.module.scss'
 import SimpleMDE from 'react-simplemde-editor'
 import 'easymde/dist/easymde.min.css'
 import $api, {API_URL} from '../../api'
 import { useStore } from '../../store/StoreProvider'
+import { useParams } from 'react-router-dom'
 
 export const AddPlacePage = () => {
   const { placeStore } = useStore()
@@ -14,23 +24,57 @@ export const AddPlacePage = () => {
   const [gallery, setGallery] = useState([])
   const [isNewPlace, setIsNewPlace] = useState(false)
   const [placeId, setPlaceId] = useState(null)
+  const { id } = useParams()
+  const [imgUploaded, setImgUploaded] = useState('')
+  const [galleryUploaded, setGalleryUploaded] = useState([])
+
+  const isEditing = Boolean(id)
+
+  useEffect(() => {
+    if (id) {
+      placeStore.getPlaceById(id).then(res => {
+        setTitle(res?.title)
+        setValueEditor(res?.text)
+        setImgUploaded(res?.thumbnail)
+        setGalleryUploaded(res?.gallery)
+      })
+    }
+  }, [])
   
   const submitPlace = async () => {
     try {
       const formData = new FormData()
-      formData.append('thumbnail', img) 
-      gallery.map((file) => {
+      img ? formData.append('thumbnail', img) : formData.append('thumbnail', imgUploaded)
+      
+      if (gallery?.length > 0) { gallery.map((file) => 
         formData.append('gallery', file)
-      })     
-      const { data } = await $api.post(`${API_URL}/upload/images`, formData)
-      await placeStore.createPlace(title, valueEditor, data.galleryUrl, data.thumbUrl)
+      )}
+      
+      if (galleryUploaded?.length > 0) { galleryUploaded.map((file) => 
+        formData.append('gallery', file)
+      )}
+
+      const { data } = (formData.has('thumbnail') || formData.has('gallery'))
+                        && await $api.post(`${API_URL}/upload/images`, formData)
+              
+      isEditing ? await placeStore.updatePlace(
+        id,
+        title, 
+        valueEditor, 
+        formData?.has('gallery') ? data?.galleryUrl : galleryUploaded,
+        formData?.has('thumbnail') ? data?.thumbUrl : imgUploaded,
+        )
+      : await placeStore.createPlace(title, valueEditor, data.galleryUrl, data.thumbUrl)
+      
       const places = await placeStore.getPlaces()
-      setPlaceId(places[places.length - 1].id)
+      
+      isEditing ? setPlaceId(id) : setPlaceId(places[places.length - 1].id)
+
       setIsNewPlace(true)
-    } catch (error) {
-      console.warn(error)
+      } catch (error) {
+        console.warn(error)
+      }
     }
-  }
 
   const onChangeEditor = useCallback((value) => {
     setValueEditor(value)
@@ -56,7 +100,10 @@ export const AddPlacePage = () => {
   return (
       <div className={cls.addPlaceInner}>
         <Container>  
-            <Text title='Добавить достопримечательность' size='m'/>  
+            <Text 
+              title={isEditing ? 'Редактировать достопримечательность' : 'Добавить достопримечательность'} 
+              size='m'
+            />  
             <br />      
             <Input
               className={cls.input}
@@ -70,15 +117,16 @@ export const AddPlacePage = () => {
               onChange={onChangeEditor}
               options={options} 
             />
-            <ImagePanel setImg={setImg} setGallery={setGallery} gallery={gallery} />
+            { isEditing && <ImageUploadedPanel imgUploaded={imgUploaded} galleryUploaded={galleryUploaded} /> }
+            <ImagePanel setImg={setImg} setGallery={setGallery} gallery={gallery} isEditing={isEditing} />
             <div className={cls.buttons}>
               <Button onClick={submitPlace} variant={buttonType.FILLED}>
-                Опубликовать
+                {isEditing ? 'Сохранить' : 'Опубликовать'}
               </Button>
               <LinkButton to={'/#places'} variant={buttonType.GRADIENT}>Отмена</LinkButton>
-              {isNewPlace && 
+              {isNewPlace &&
                 <LinkButton 
-                  to={`/places/${placeId}`}
+                  to={`/places/${isEditing ? id : placeId}`}
                   variant={buttonType.FILLED}>
                     Посмотреть созданную достопримечательность
                 </LinkButton>

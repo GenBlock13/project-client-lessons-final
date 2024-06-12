@@ -1,0 +1,40 @@
+.contentFact {
+    display: flex;
+    height: 320px;
+    &:nth-child(odd) {
+        flex-direction: row-reverse;
+        img {
+            border-radius: 0 24px 24px 0;
+        }
+    }
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 24px;
+}
+
+.btns {
+    position: relative;
+    width: 900px;
+}
+
+.edit {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.img {
+    max-width: 900px;
+    border-radius: 24px 0 0 24px;
+}
+
+.textFact {
+    overflow: auto;
+    width: 420px;
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    padding: 24px;
+}
