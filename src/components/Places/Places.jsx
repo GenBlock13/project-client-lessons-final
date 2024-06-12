@@ -2,6 +2,7 @@ import { Section, Text, LinkButton, buttonType, PlaceCard } from '../'
 import cls from './Places.module.scss'
 import { useStore } from '../../store/StoreProvider'
 import { useEffect, useState } from 'react'
+import { SERVER_URL } from '../../api'
 
 export const Places = () => {
   const { authStore, placeStore } = useStore()
@@ -40,7 +41,7 @@ export const Places = () => {
                   key={place.id}
                   placeId={place.id} 
                   alt={place.title}
-                  imgUrl={`http://localhost:5000/${place.thumbnail}`}
+                  imgUrl={`${SERVER_URL}/${place.thumbnail}`}
                   update={updatePlaceList}
                 >
                   {place.title}

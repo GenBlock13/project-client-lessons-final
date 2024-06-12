@@ -1,0 +1,39 @@
+.facts {
+    display: flex;
+    flex-direction: column;
+    padding: 64px 0;
+}
+
+.factsList {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 36px 0;
+    &:nth-child(odd) {
+        flex-direction: row-reverse;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    position: relative;
+    padding-left: 24px;
+
+    &::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+
+        background-color: var(--primary-color);
+
+        position: absolute;
+        top: 3px;
+        left: 0;
+    }
+}

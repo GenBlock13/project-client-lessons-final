@@ -1,0 +1,30 @@
+.placeInner {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 84px 0 32px 0;
+}
+
+.thumb {
+    width: 200px;
+    height: 200px;
+    float: left;
+    margin-right: 32px;
+    margin-bottom: 32px;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 24px;
+}
+
+.galleryImg {
+    width: 320px;
+    height: 320px;
+    border-radius: 12%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+}

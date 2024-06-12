@@ -1,0 +1,38 @@
+.commentCard {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    border: 1px solid var(--secondary-color);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 320px;
+    svg path {
+        fill: var(--secondary-color);
+    }
+    margin-bottom: 24px;
+}
+
+.username {
+    border-radius: 24px;
+    background-color: var(--primary-color);
+    padding: 3px 10px;
+}
+
+.edit {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+@media (max-width: 480px) {
+    .commentCard {
+        width: 100%;
+    }
+}

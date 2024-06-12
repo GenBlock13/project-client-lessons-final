@@ -1,0 +1,28 @@
+.addFact {
+    padding: 72px 0;
+    height: 100%;
+    background-color: var(--bg-color);
+}
+
+.addFactInner {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input {
+    padding: 0;
+        input {
+            padding-left: 0;
+            color: var(--text-color);
+    
+            &::placeholder {
+                color: var(--text-color);
+            }
+        }
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}

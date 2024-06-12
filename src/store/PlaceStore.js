@@ -71,4 +71,23 @@ export class PlaceStore {
       this.setLoading(false)
     }
   }
+
+  // изменить достопримечательность
+  async updatePlace(placeId, title, text, gallery, thumbnail) {
+    try {
+      const response = await PlaceService.updatePlace(
+        placeId,
+        title,
+        text,
+        gallery,
+        thumbnail
+      )
+      return response.data
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+  
 }

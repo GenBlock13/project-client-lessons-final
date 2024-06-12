@@ -1,0 +1,9 @@
+textarea {
+    resize: vertical;
+    width: 100%;
+    border: 2px solid var(--secondary-color-light);
+    border-radius: 5px;
+    &:focus {
+        border-color: var(--secondary-color)
+    }
+}
