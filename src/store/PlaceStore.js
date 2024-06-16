@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { PlaceService } from '../services/PlaceService'
+import { errorsHandler } from '../utils/errorsHandler'
 
 export class PlaceStore {
   places = []
@@ -17,8 +18,6 @@ export class PlaceStore {
     this.isLoading = bool
   }
 
-  // асинхронный экшен
-  // метод для создания достопримечательности
   async createPlace(title, text, gallery, thumbnail) {
     try {
       const response = await PlaceService.createPlace(
@@ -30,11 +29,10 @@ export class PlaceStore {
       console.log(response)
       this.setPlaces(response.data.place)
     } catch (e) {
-      console.log(e.message)
+      return errorsHandler(e.response.data)
     }
   }
 
-  // получить все достопримечательности
   async getPlaces() {
     try {
       this.setLoading(true)
@@ -47,7 +45,6 @@ export class PlaceStore {
     }
   }
 
-  // получить одну достопримечательность
   async getPlaceById(id) {
     try {
       this.setLoading(true)
@@ -60,7 +57,6 @@ export class PlaceStore {
     }
   }
 
-  // удалить достопримечательность
   async deletePlaceById(id) {
     try {
       const response = await PlaceService.deletePlace(id)
@@ -72,7 +68,6 @@ export class PlaceStore {
     }
   }
 
-  // изменить достопримечательность
   async updatePlace(placeId, title, text, gallery, thumbnail) {
     try {
       const response = await PlaceService.updatePlace(
@@ -84,7 +79,7 @@ export class PlaceStore {
       )
       return response.data
     } catch (e) {
-      console.log(e)
+      return errorsHandler(e.response.data)
     } finally {
       this.setLoading(false)
     }

@@ -1,11 +1,15 @@
-import { Link } from 'react-router-dom'
-import { Container } from '../../components'
+import { Container, Text, LinkButton, buttonType } from '../../components'
+import cls from './NotFoundPage.module.scss'
 
 export const NotFoundPage = () => {
   return (
     <Container>
-      <div>Страница не найдена</div>
-      <Link to={"/"}>На главную</Link>
+      <div className={cls.notFound}>
+        <span>😕</span>
+        <Text title='Ничего не найдено' size='l' align='center' bold />
+        <Text text='К сожалению данная страница отсутствует в приложении.' size='l' align='center' />
+        <LinkButton to={"/"} variant={buttonType.GRADIENT}>Перейти на главную страницу</LinkButton>
+      </div>
     </Container>
   )
 }

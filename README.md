@@ -1,4 +1,4 @@
-# Клиентская часть учебного проекта
+# Клиентская часть
 
 Скачать архив проекта [ссылке](https://github.com/Elenstar/project-client-lessons/archive/refs/heads/main.zip).
 
@@ -17,7 +17,7 @@ npm start
 
 Открыть [http://localhost:3000](http://localhost:3000) в браузере.
 
-# Серверная часть данного учебного проекта
+# Серверная часть
 
 Серверную часть проекта можно скачать по [ссылке](https://github.com/Elenstar/project-server-lessons/archive/refs/heads/main.zip).
 Руководство по серверной части [тут](https://github.com/Elenstar/project-server-lessons/blob/main/README.md).

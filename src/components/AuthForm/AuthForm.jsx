@@ -11,6 +11,7 @@ export const AuthForm = ({formType}) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const { authStore } = useStore()
+    const [errorsMessage, setErrorsMessage] = useState([])
 
     const onUsernameChange = (value) => {
         setUsername(value)
@@ -22,18 +23,33 @@ export const AuthForm = ({formType}) => {
         setPassword(value)
     }
 
-    const registerHandler = () => {
-        authStore.registration(username, email, password)
+    const registerHandler = async () => {
+        setErrorsMessage([])
+        const res = await authStore.registration(username, email, password)
+        if (res instanceof Array) {
+            res.map(err => setErrorsMessage(prev => [...prev, err]))
+        }
     }
 
-    const loginHandler = () => {
-        authStore.login(email, password)
+    const loginHandler = async () => {
+        setErrorsMessage([])
+        const res = await authStore.login(email, password)
+        if (res instanceof Array) {
+            setErrorsMessage(prev => [...prev, res[0]])
+        }
     }
     
     return (<form className={cls.form}>
                 {formType === 'register' &&
                 <>
                     <Text title='Форма регистрации' size='m' align='center'/>
+                    <div>
+                        { errorsMessage?.length > 0 
+                            && 
+                            errorsMessage.map(err => 
+                                <Text key={err} title={err} size='s' align='left' color='error' />) 
+                        }
+                    </div>
                     <Input
                         onChange={onUsernameChange}
                         value={username} 
@@ -65,6 +81,7 @@ export const AuthForm = ({formType}) => {
                 {formType === 'login' &&
                 <>
                     <Text title='Форма авторизации' size='m' align='center'/>
+                    { errorsMessage?.length > 0 && <Text key={errorsMessage} title={errorsMessage} size='s' align='left' color='error' /> }
                     <Input
                         onChange={onEmailChange}
                         value={email} 

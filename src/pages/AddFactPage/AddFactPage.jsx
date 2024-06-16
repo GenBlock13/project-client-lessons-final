@@ -24,6 +24,7 @@ export const AddFactPage = () => {
   const [isDisabled, setIsDisabled] = useState(false)
   const { id } = useParams()
   const { factStore } = useStore()
+  const [errorsMessage, setErrorsMessage] = useState([])
 
   const isEditing = id
 
@@ -62,17 +63,21 @@ export const AddFactPage = () => {
 
       const { data } = formData.has('image') && await $api.post(`${API_URL}/upload/image`, formData)
               
-      isEditing ? await factStore.updateFact(
+      const res = isEditing ? await factStore.updateFact(
         id,
         title, 
         text, 
         formData.has('image') ? data?.url : imgUploaded,
         )
       : await factStore.createFact(title, text, data.url)
-
-      console.log(imgUploaded)
-
-      setIsNewFact(true)
+        
+      if (res instanceof Array) {
+          setErrorsMessage([])
+          res.map(err => setErrorsMessage(prev => [...prev, err]))
+          setIsNewFact(false)
+        } else {
+          setIsNewFact(true)
+        }
       } catch (error) {
         console.warn(error)
       } 
@@ -83,6 +88,13 @@ export const AddFactPage = () => {
       <Container>
         <div className={cls.addFactInner}>
           <Text title={isEditing ? 'Изменить факт' : 'Добавить факт'} size='m'/>       
+          <div>
+            { errorsMessage?.length > 0 
+                    && 
+                  errorsMessage.map(err => 
+                    <Text key={err} title={err} size='s' align='left' color='error' />) 
+            }
+          </div>
           <Input
             className={cls.input}
             placeholder='Название факта...'

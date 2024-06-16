@@ -10,7 +10,7 @@ const authStore = new AuthStore()
 const placeStore = new PlaceStore()
 // Создание объекта класса FactStore
 const factStore = new FactStore()
-// Создание объекта класса FactStore
+// Создание объекта класса CommentStore
 const commentStore = new CommentStore()
 
 // список сторов - сюда подключаем все сторы, которые у нас есть
