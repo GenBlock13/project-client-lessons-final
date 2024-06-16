@@ -27,6 +27,7 @@ export const AddPlacePage = () => {
   const { id } = useParams()
   const [imgUploaded, setImgUploaded] = useState('')
   const [galleryUploaded, setGalleryUploaded] = useState([])
+  const [errorsMessage, setErrorsMessage] = useState([])
 
   const isEditing = Boolean(id)
 
@@ -43,34 +44,39 @@ export const AddPlacePage = () => {
   
   const submitPlace = async () => {
     try {
-      const formData = new FormData()
-      img ? formData.append('thumbnail', img) : formData.append('thumbnail', imgUploaded)
-      
-      if (gallery?.length > 0) { gallery.map((file) => 
-        formData.append('gallery', file)
-      )}
-      
-      if (galleryUploaded?.length > 0) { galleryUploaded.map((file) => 
-        formData.append('gallery', file)
-      )}
+        const formData = new FormData()
+        img ? formData.append('thumbnail', img) : formData.append('thumbnail', imgUploaded)
+        
+        if (gallery?.length > 0) { gallery.map((file) => 
+          formData.append('gallery', file)
+        )}
+        
+        if (galleryUploaded?.length > 0) { galleryUploaded.map((file) => 
+          formData.append('gallery', file)
+        )}
 
-      const { data } = (formData.has('thumbnail') || formData.has('gallery'))
-                        && await $api.post(`${API_URL}/upload/images`, formData)
+        const { data } = (formData.has('thumbnail') || formData.has('gallery'))
+                          && await $api.post(`${API_URL}/upload/images`, formData)
+
+        const res = isEditing ? await placeStore.updatePlace(
+          id,
+          title, 
+          valueEditor, 
+          formData?.has('gallery') ? data?.galleryUrl : galleryUploaded,
+          formData?.has('thumbnail') ? data?.thumbUrl : imgUploaded,
+          ) : await placeStore.createPlace(title, valueEditor, data.galleryUrl, data.thumbUrl)  
+          
+        if (res instanceof Array) {
+          setErrorsMessage([])
+          res.map(err => setErrorsMessage(prev => [...prev, err]))
+          setIsNewPlace(false)
+        } else {
+          setIsNewPlace(true)
+        }
               
-      isEditing ? await placeStore.updatePlace(
-        id,
-        title, 
-        valueEditor, 
-        formData?.has('gallery') ? data?.galleryUrl : galleryUploaded,
-        formData?.has('thumbnail') ? data?.thumbUrl : imgUploaded,
-        )
-      : await placeStore.createPlace(title, valueEditor, data.galleryUrl, data.thumbUrl)
-      
-      const places = await placeStore.getPlaces()
-      
-      isEditing ? setPlaceId(id) : setPlaceId(places[places.length - 1].id)
+        const places = await placeStore.getPlaces()
 
-      setIsNewPlace(true)
+        isEditing ? setPlaceId(id) : setPlaceId(places[0].id)
       } catch (error) {
         console.warn(error)
       }
@@ -84,7 +90,6 @@ export const AddPlacePage = () => {
     setTitle(value)
   }, [])
 
-  // настройки текстового редактора
   const options = useMemo(() => {
     return {
       autofocus: true,
@@ -103,7 +108,13 @@ export const AddPlacePage = () => {
             <Text 
               title={isEditing ? 'Редактировать достопримечательность' : 'Добавить достопримечательность'} 
               size='m'
-            />  
+            />
+              { errorsMessage?.length > 0 
+                  && 
+                errorsMessage.map(err => 
+                  <Text key={err} title={err} size='s' align='left' color='error' />) 
+              }
+            
             <br />      
             <Input
               className={cls.input}

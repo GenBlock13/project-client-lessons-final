@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { AuthService } from '../services/AuthService'
 import axios from 'axios'
 import { API_URL } from '../api'
+import { errorsHandler } from '../utils/errorsHandler'
 
 export class AuthStore {
     user = {}
@@ -42,7 +43,7 @@ export class AuthStore {
             console.log(response)
             this.setUserAndRole(response)
         } catch (e) {
-            console.log(e.response?.data?.message)
+            return errorsHandler(e.response?.data)
         }
     }
 
@@ -52,7 +53,7 @@ export class AuthStore {
             console.log(response)
             this.setUserAndRole(response)
         } catch (e) {
-            console.log(e.message)
+            return errorsHandler(e.response?.data)
         }
     }
 

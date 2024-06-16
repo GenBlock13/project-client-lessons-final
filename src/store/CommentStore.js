@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { CommentService } from '../services/CommentService'
+import { errorsHandler } from '../utils/errorsHandler'
 
 export class CommentStore {
   comments = []
@@ -26,7 +27,7 @@ export class CommentStore {
       this.setComments(response.data)
       return response.data
     } catch (e) {
-      console.log(e.message)
+      return errorsHandler(e.response.data)
     }
   }
 
@@ -73,7 +74,7 @@ export class CommentStore {
       )
       return response.data
     } catch (e) {
-      console.log(e)
+      return errorsHandler(e.response.data)
     } finally {
       this.setLoading(false)
     }

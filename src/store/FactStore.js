@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { FactService } from '../services/FactService'
+import { errorsHandler } from '../utils/errorsHandler'
 
 export class FactStore {
   facts = []
@@ -28,7 +29,7 @@ export class FactStore {
       console.log(response)
       this.setFacts(response.data.fact)
     } catch (e) {
-      console.log(e.message)
+      return errorsHandler(e.response.data)
     }
   }
 
@@ -81,7 +82,7 @@ export class FactStore {
       )
       return response.data
     } catch (e) {
-      console.log(e)
+      return errorsHandler(e.response.data)
     } finally {
       this.setLoading(false)
     }
